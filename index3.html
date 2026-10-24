@@ -10,7 +10,6 @@
             --bg-color: #0f172a;
             --card-bg: #1e293b;
             --accent: #22c55e;
-            --accent-hover: #16a34a;
             --text-color: #f8fafc;
             --text-secondary: #94a3b8;
             --danger: #ef4444;
@@ -69,7 +68,6 @@
             font-size: 12px;
             cursor: pointer;
             font-weight: bold;
-            transition: all 0.2s;
         }
 
         .btn-small:hover {
@@ -77,7 +75,6 @@
             color: #000;
         }
 
-        /* Game Section */
         .game-card {
             background: var(--card-bg);
             border-radius: 16px;
@@ -126,7 +123,6 @@
             font-size: 11px;
             cursor: pointer;
             flex: 1;
-            transition: 0.2s;
         }
 
         .quick-btn:hover {
@@ -181,11 +177,6 @@
             font-size: 15px;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .spin-btn:active {
-            transform: scale(0.98);
         }
 
         .spin-btn:disabled {
@@ -193,7 +184,6 @@
             cursor: not-allowed;
         }
 
-        /* History Section */
         .history-card {
             background: var(--card-bg);
             border-radius: 16px;
@@ -227,7 +217,6 @@
         .history-item.withdraw { color: var(--warning); }
         .history-item.rejected { color: var(--danger); }
 
-        /* Modals */
         .modal {
             display: none;
             position: fixed;
@@ -391,7 +380,7 @@
                 <b>Send Payment To:</b><br>
                 • <b>Telebirr:</b> 0963052077<br>
                 • <b>Sinqee Bank:</b> 1036696630101<br><br>
-                Paste your text receipt/reference message below to verify. Invalid or mismatching texts will be automatically rejected.
+                Paste your full Telebirr or bank receipt text message below. The system will scan it for verification.
             </div>
             <div class="form-group">
                 <label>Payment Method</label>
@@ -401,12 +390,8 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>Amount Sent (ETB)</label>
-                <input type="number" id="depositAmount" placeholder="e.g. 50" min="1" max="10000">
-            </div>
-            <div class="form-group">
-                <label>Paste Bank/Telebirr Receipt Text</label>
-                <textarea id="depositReceiptText" rows="3" placeholder="e.g. Transferred 50.00 Birr successfully. Ref: BC123456..."></textarea>
+                <label>Paste Complete Receipt Text</label>
+                <textarea id="depositReceiptText" rows="4" placeholder="Dear user You have transferred ETB 100.00 to... Transaction number is DJL..."></textarea>
             </div>
             <div class="modal-actions">
                 <button class="btn-secondary" onclick="closeModal('depositModal')">Cancel</button>
@@ -442,14 +427,19 @@
     </div>
 
     <script>
-        let tg = window.Telegram?.WebApp;
-        if (tg) { tg.expand(); }
-
         let balance = 50.00;
         let currentRotation = 0;
         let isSpinning = false;
         let transactions = [];
+        let usedTransactionCodes = new Set(); // Stores used transaction IDs to prevent reuse
         const multipliers = [0, 0.5, 1, 2, 5, 10];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.expand();
+            }
+            updateUI();
+        });
 
         function updateUI() {
             document.getElementById('balance').innerText = balance.toFixed(2);
@@ -460,8 +450,15 @@
             document.getElementById('spinBetAmount').value = amount;
         }
 
-        function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
-        function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) modal.style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) modal.style.display = 'none';
+        }
 
         function addTransaction(type, amount, status) {
             const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -471,6 +468,8 @@
 
         function renderHistory() {
             const listEl = document.getElementById('historyList');
+            if (!listEl) return;
+            
             if (transactions.length === 0) {
                 listEl.innerHTML = '<div class="history-item" style="color: var(--text-secondary);">No transactions yet</div>';
                 return;
@@ -491,13 +490,13 @@
         }
 
         function spinWheel() {
+            if (isSpinning) return;
+
             const betInput = document.getElementById('spinBetAmount');
             const spinCost = parseFloat(betInput.value);
             const messageEl = document.getElementById('message');
 
-            if (isSpinning) return;
-
-            if (!spinCost || spinCost < 1 || spinCost > 100) {
+            if (isNaN(spinCost) || spinCost < 1 || spinCost > 100) {
                 alert('Please select a valid spin bet between 1 and 100 Birr.');
                 return;
             }
@@ -542,67 +541,4 @@
         }
 
         function handleDeposit() {
-            const amount = parseFloat(document.getElementById('depositAmount').value);
-            const receiptText = document.getElementById('depositReceiptText').value.trim();
-            const messageEl = document.getElementById('message');
-
-            if (!amount || amount <= 0 || !receiptText) {
-                alert('Please enter a valid amount and paste your receipt text.');
-                return;
-            }
-
-            closeModal('depositModal');
-            messageEl.style.color = 'var(--text-secondary)';
-            messageEl.innerText = 'Verifying receipt text...';
-
-            setTimeout(() => {
-                // Automated receipt validation check
-                const hasValidLength = receiptText.length >= 8;
-                const matchesAmount = receiptText.includes(amount.toString()) || receiptText.toLowerCase().includes('success') || receiptText.toLowerCase().includes('transferred');
-
-                if (hasValidLength && matchesAmount) {
-                    balance += amount;
-                    addTransaction('Deposit', amount, 'Approved');
-                    updateUI();
-                    messageEl.style.color = 'var(--accent)';
-                    messageEl.innerText = `Deposit Approved! +${amount.toFixed(2)} ETB added.`;
-                } else {
-                    addTransaction('Deposit', amount, 'Rejected');
-                    messageEl.style.color = 'var(--danger)';
-                    messageEl.innerText = 'Deposit Rejected: Invalid receipt text or amount mismatch.';
-                }
-
-                document.getElementById('depositAmount').value = '';
-                document.getElementById('depositReceiptText').value = '';
-            }, 1500);
-        }
-
-        function handleWithdraw() {
-            const amount = parseFloat(document.getElementById('withdrawAmount').value);
-            const account = document.getElementById('withdrawAccount').value;
-
-            if (!amount || amount <= 0 || !account) {
-                alert('Please fill in all withdrawal details properly.');
-                return;
-            }
-
-            if (amount > balance) {
-                alert('Withdrawal amount exceeds your current balance.');
-                return;
-            }
-
-            balance -= amount;
-            addTransaction('Withdrawal', amount, 'Pending');
-            updateUI();
-            closeModal('withdrawModal');
-            
-            document.getElementById('withdrawAmount').value = '';
-            document.getElementById('withdrawAccount').value = '';
-            
-            const messageEl = document.getElementById('message');
-            messageEl.style.color = 'var(--warning)';
-            messageEl.innerText = `Withdrawal request of ${amount.toFixed(2)} ETB submitted!`;
-        }
-    </script>
-</body>
-</html>
+            const receiptInput = document.
