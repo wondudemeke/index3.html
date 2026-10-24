@@ -10,10 +10,10 @@
             --bg-color: #0f172a;
             --card-bg: #1e293b;
             --accent: #22c55e;
+            --accent-hover: #16a34a;
             --text-color: #f8fafc;
             --text-secondary: #94a3b8;
             --danger: #ef4444;
-            --warning: #f59e0b;
         }
 
         body {
@@ -39,7 +39,7 @@
             background: var(--card-bg);
             padding: 12px 16px;
             border-radius: 12px;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
@@ -75,66 +75,21 @@
             color: #000;
         }
 
+        /* Game Section */
         .game-card {
             background: var(--card-bg);
             border-radius: 16px;
-            padding: 16px;
+            padding: 20px;
             text-align: center;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-            margin-bottom: 16px;
-        }
-
-        .bet-selector {
-            margin-bottom: 14px;
-            text-align: left;
-        }
-
-        .bet-selector label {
-            display: block;
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-        }
-
-        .bet-input-wrapper input {
-            width: 100%;
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid var(--text-secondary);
-            background: var(--bg-color);
-            color: var(--text-color);
-            font-size: 14px;
-            font-weight: bold;
-            box-sizing: border-box;
-        }
-
-        .quick-bets {
-            display: flex;
-            gap: 6px;
-            margin-top: 6px;
-        }
-
-        .quick-btn {
-            background: var(--bg-color);
-            border: 1px solid #334155;
-            color: var(--text-secondary);
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 11px;
-            cursor: pointer;
-            flex: 1;
-        }
-
-        .quick-btn:hover {
-            border-color: var(--accent);
-            color: var(--text-color);
+            margin-bottom: 20px;
         }
 
         .wheel-container {
             position: relative;
-            width: 180px;
-            height: 180px;
-            margin: 0 auto 16px auto;
+            width: 220px;
+            height: 220px;
+            margin: 0 auto 20px auto;
         }
 
         .wheel {
@@ -172,11 +127,16 @@
             color: #fff;
             border: none;
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             border-radius: 12px;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .spin-btn:active {
+            transform: scale(0.98);
         }
 
         .spin-btn:disabled {
@@ -184,39 +144,7 @@
             cursor: not-allowed;
         }
 
-        .history-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 14px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .history-card h4 {
-            margin: 0 0 8px 0;
-            font-size: 13px;
-            color: var(--text-secondary);
-            border-bottom: 1px solid #334155;
-            padding-bottom: 4px;
-        }
-
-        .history-list {
-            max-height: 130px;
-            overflow-y: auto;
-            font-size: 11px;
-            text-align: left;
-        }
-
-        .history-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .history-item.deposit { color: var(--accent); }
-        .history-item.withdraw { color: var(--warning); }
-        .history-item.rejected { color: var(--danger); }
-
+        /* Modals / Menus */
         .modal {
             display: none;
             position: fixed;
@@ -232,63 +160,44 @@
 
         .modal-content {
             background: var(--card-bg);
-            padding: 20px;
+            padding: 24px;
             border-radius: 16px;
             width: 85%;
             max-width: 320px;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
-            max-height: 90vh;
-            overflow-y: auto;
         }
 
         .modal-content h3 {
             margin-top: 0;
-            margin-bottom: 10px;
-            color: var(--text-color);
-        }
-
-        .instruction-box {
-            background: var(--bg-color);
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 11px;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-            text-align: left;
-            line-height: 1.4;
-        }
-
-        .instruction-box b {
+            margin-bottom: 16px;
             color: var(--text-color);
         }
 
         .form-group {
-            margin-bottom: 10px;
+            margin-bottom: 16px;
             text-align: left;
         }
 
         .form-group label {
             display: block;
-            font-size: 11px;
+            font-size: 12px;
             color: var(--text-secondary);
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
-        .form-group input, .form-group select, .form-group textarea {
+        .form-group input, .form-group select {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             border-radius: 8px;
             border: 1px solid var(--text-secondary);
             background: var(--bg-color);
             color: var(--text-color);
             box-sizing: border-box;
-            font-family: inherit;
         }
 
         .modal-actions {
             display: flex;
             gap: 10px;
-            margin-top: 12px;
         }
 
         .btn-primary {
@@ -314,8 +223,8 @@
         }
 
         #message {
-            margin-top: 10px;
-            font-size: 13px;
+            margin-top: 12px;
+            font-size: 14px;
             font-weight: 500;
             min-height: 20px;
         }
@@ -324,7 +233,7 @@
 <body>
 
     <div class="container">
-        <!-- Header -->
+        <!-- Header with Balance & Action Nav -->
         <header>
             <div>
                 <div class="balance-title">Balance</div>
@@ -339,36 +248,15 @@
         <!-- Game Box -->
         <div class="game-card">
             <h3>Spin & Win Birr</h3>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-top: 0;">Cost per spin: 10 ETB</p>
             
-            <div class="bet-selector">
-                <label>Select Spin Stake (1 - 100 ETB):</label>
-                <div class="bet-input-wrapper">
-                    <input type="number" id="spinBetAmount" value="5" min="1" max="100">
-                </div>
-                <div class="quick-bets">
-                    <button class="quick-btn" onclick="setBet(5)">5</button>
-                    <button class="quick-btn" onclick="setBet(10)">10</button>
-                    <button class="quick-btn" onclick="setBet(25)">25</button>
-                    <button class="quick-btn" onclick="setBet(50)">50</button>
-                    <button class="quick-btn" onclick="setBet(100)">100</button>
-                </div>
-            </div>
-
             <div class="wheel-container">
                 <div class="pointer"></div>
                 <div class="wheel" id="wheel"></div>
             </div>
 
-            <button class="spin-btn" id="spinBtn" onclick="spinWheel()">SPIN NOW</button>
+            <button class="spin-btn" id="spinBtn" onclick="spinWheel()">SPIN NOW (10 ETB)</button>
             <div id="message"></div>
-        </div>
-
-        <!-- History Log Section -->
-        <div class="history-card">
-            <h4>Transaction History</h4>
-            <div class="history-list" id="historyList">
-                <div class="history-item" style="color: var(--text-secondary);">No transactions yet</div>
-            </div>
         </div>
     </div>
 
@@ -376,26 +264,21 @@
     <div class="modal" id="depositModal">
         <div class="modal-content">
             <h3>Deposit Birr</h3>
-            <div class="instruction-box">
-                <b>Send Payment To:</b><br>
-                • <b>Telebirr:</b> 0963052077<br>
-                • <b>Sinqee Bank:</b> 1036696630101<br><br>
-                Paste your full Telebirr or bank receipt text message below. The system will scan it for verification.
-            </div>
             <div class="form-group">
-                <label>Payment Method</label>
+                <label>Select Payment Method</label>
                 <select id="depositMethod">
-                    <option value="telebirr">Telebirr (0963052077)</option>
-                    <option value="sinqee">Sinqee Bank (1036696630101)</option>
+                    <option value="telebirr">Telebirr</option>
+                    <option value="cbe">CBE (Commercial Bank of Ethiopia)</option>
+                    <option value="awash">Awash Bank</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>Paste Complete Receipt Text</label>
-                <textarea id="depositReceiptText" rows="4" placeholder="Dear user You have transferred ETB 100.00 to... Transaction number is DJL..."></textarea>
+                <label>Amount (ETB)</label>
+                <input type="number" id="depositAmount" placeholder="e.g. 100" min="10">
             </div>
             <div class="modal-actions">
                 <button class="btn-secondary" onclick="closeModal('depositModal')">Cancel</button>
-                <button class="btn-primary" onclick="handleDeposit()">Verify & Deposit</button>
+                <button class="btn-primary" onclick="handleDeposit()">Proceed</button>
             </div>
         </div>
     </div>
@@ -405,10 +288,10 @@
         <div class="modal-content">
             <h3>Withdraw Birr</h3>
             <div class="form-group">
-                <label>Payout Method</label>
+                <label>Select Payout Method</label>
                 <select id="withdrawMethod">
                     <option value="telebirr">Telebirr</option>
-                    <option value="sinqee">Sinqee Bank</option>
+                    <option value="cbe">CBE (Commercial Bank of Ethiopia)</option>
                 </select>
             </div>
             <div class="form-group">
@@ -417,7 +300,7 @@
             </div>
             <div class="form-group">
                 <label>Amount (ETB)</label>
-                <input type="number" id="withdrawAmount" placeholder="e.g. 50" min="10">
+                <input type="number" id="withdrawAmount" placeholder="e.g. 50" min="20">
             </div>
             <div class="modal-actions">
                 <button class="btn-secondary" onclick="closeModal('withdrawModal')">Cancel</button>
@@ -427,79 +310,36 @@
     </div>
 
     <script>
+        // Initialize Telegram WebApp hooks if available
+        let tg = window.Telegram?.WebApp;
+        if (tg) {
+            tg.expand();
+        }
+
         let balance = 50.00;
         let currentRotation = 0;
         let isSpinning = false;
-        let transactions = [];
-        let usedTransactionCodes = new Set(); // Stores used transaction IDs to prevent reuse
-        const multipliers = [0, 0.5, 1, 2, 5, 10];
 
-        window.addEventListener('DOMContentLoaded', () => {
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.expand();
-            }
-            updateUI();
-        });
+        // Possible rewards corresponding to wheel segments (6 segments: 0, 5, 10, 20, 50, 100 ETB)
+        const rewards = [0, 5, 10, 20, 50, 100];
 
         function updateUI() {
             document.getElementById('balance').innerText = balance.toFixed(2);
-            renderHistory();
-        }
-
-        function setBet(amount) {
-            document.getElementById('spinBetAmount').value = amount;
         }
 
         function openModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) modal.style.display = 'flex';
+            document.getElementById(modalId).style.display = 'flex';
         }
 
         function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) modal.style.display = 'none';
-        }
-
-        function addTransaction(type, amount, status) {
-            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            transactions.unshift({ type, amount, status, time: timeStr });
-            renderHistory();
-        }
-
-        function renderHistory() {
-            const listEl = document.getElementById('historyList');
-            if (!listEl) return;
-            
-            if (transactions.length === 0) {
-                listEl.innerHTML = '<div class="history-item" style="color: var(--text-secondary);">No transactions yet</div>';
-                return;
-            }
-            listEl.innerHTML = transactions.map(tx => {
-                let colorClass = 'deposit';
-                let sign = '+';
-                if (tx.type === 'Withdrawal') { colorClass = 'withdraw'; sign = '-'; }
-                if (tx.status === 'Rejected') { colorClass = 'rejected'; sign = ''; }
-
-                return `
-                    <div class="history-item ${colorClass}">
-                        <span><b>${tx.type}</b> (${tx.status})<br><small style="color:var(--text-secondary)">${tx.time}</small></span>
-                        <span><b>${sign}${tx.amount.toFixed(2)} ETB</b></span>
-                    </div>
-                `;
-            }).join('');
+            document.getElementById(modalId).style.display = 'none';
         }
 
         function spinWheel() {
-            if (isSpinning) return;
-
-            const betInput = document.getElementById('spinBetAmount');
-            const spinCost = parseFloat(betInput.value);
+            const spinCost = 10;
             const messageEl = document.getElementById('message');
 
-            if (isNaN(spinCost) || spinCost < 1 || spinCost > 100) {
-                alert('Please select a valid spin bet between 1 and 100 Birr.');
-                return;
-            }
+            if (isSpinning) return;
 
             if (balance < spinCost) {
                 messageEl.style.color = 'var(--danger)';
@@ -514,25 +354,31 @@
             messageEl.style.color = 'var(--text-color)';
             messageEl.innerText = 'Spinning... Good luck!';
 
-            const prizeIndex = Math.floor(Math.random() * multipliers.length);
-            const degreesPerSegment = 360 / multipliers.length;
+            // Randomize final prize index (0 to 5)
+            const prizeIndex = Math.floor(Math.random() * rewards.length);
+            const degreesPerSegment = 360 / rewards.length;
+            
+            // Calculate target rotation: multiple full turns (5-8 rounds) + specific segment angle offset
             const extraRounds = 360 * 6;
             const targetDegree = prizeIndex * degreesPerSegment;
+            // Center the pointer in the middle of the segment segment
             const randomOffset = degreesPerSegment / 2; 
             
             currentRotation += extraRounds + (360 - (currentRotation % 360)) + (360 - (targetDegree + randomOffset));
-            document.getElementById('wheel').style.transform = `rotate(${currentRotation}deg)`;
+
+            const wheel = document.getElementById('wheel');
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
 
             setTimeout(() => {
                 isSpinning = false;
                 document.getElementById('spinBtn').disabled = false;
-                const wonAmount = spinCost * multipliers[prizeIndex];
+                const wonAmount = rewards[prizeIndex];
                 balance += wonAmount;
                 updateUI();
 
                 if (wonAmount > 0) {
                     messageEl.style.color = 'var(--accent)';
-                    messageEl.innerText = `Congratulations! You won ${wonAmount.toFixed(2)} ETB! 🎉`;
+                    messageEl.innerText = `Congratulations! You won ${wonAmount} ETB! 🎉`;
                 } else {
                     messageEl.style.color = 'var(--danger)';
                     messageEl.innerText = 'Oops! Better luck next time.';
@@ -541,4 +387,41 @@
         }
 
         function handleDeposit() {
-            const receiptInput = document.
+            const amount = parseFloat(document.getElementById('depositAmount').value);
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid deposit amount.');
+                return;
+            }
+            balance += amount;
+            updateUI();
+            closeModal('depositModal');
+            document.getElementById('depositAmount').value = '';
+            document.getElementById('message').style.color = 'var(--accent)';
+            document.getElementById('message').innerText = `Successfully deposited ${amount} ETB!`;
+        }
+
+        function handleWithdraw() {
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            const account = document.getElementById('withdrawAccount').value;
+
+            if (!amount || amount <= 0 || !account) {
+                alert('Please fill in all withdrawal details properly.');
+                return;
+            }
+
+            if (amount > balance) {
+                alert('Withdrawal amount exceeds your current balance.');
+                return;
+            }
+
+            balance -= amount;
+            updateUI();
+            closeModal('withdrawModal');
+            document.getElementById('withdrawAmount').value = '';
+            document.getElementById('withdrawAccount').value = '';
+            document.getElementById('message').style.color = 'var(--accent)';
+            document.getElementById('message').innerText = `Withdrawal request of ${amount} ETB submitted!`;
+        }
+    </script>
+</body>
+</html>
